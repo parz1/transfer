@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('request');
 var CryptoJS = require('crypto-js');
 var fs = require('fs');
+var query = require('../utils/db').query;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -28,6 +29,16 @@ router.get('/weather', function (req, res, next) {
       res.json({ 'data': JSON.parse(body) });
     }
   })
+})
+
+router.get('/wish', (req, res, next) => {
+  let sql = "SELECT * from wishes";
+  query(sql, [])
+    .then((result) => {
+      res.json({ status: 0, data: result })
+    }).catch((err) => {
+      console.log(err);
+    });
 })
 
 module.exports = router;
